@@ -1,0 +1,5 @@
+(test
+ (name test)
+ (libraries yojson json_rpc alcotest)
+ (deps (glob_files json/*)))
+

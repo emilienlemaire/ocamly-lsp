@@ -1,0 +1,9 @@
+(library
+ (name json_rpc)
+ (package json_rpc)
+ (libraries
+   yojson))
+
+(env
+ (dev
+   (flags (:standard -w -37 -w -33 -w -27))))

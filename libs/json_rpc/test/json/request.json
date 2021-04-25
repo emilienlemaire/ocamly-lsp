@@ -1,0 +1,14 @@
+{
+    "jsonrpc": "2.0",
+    "id" : 1,
+    "method": "textDocument/definition",
+    "params": {
+        "textDocument": {
+            "uri": "file:///p%3A/mseng/VSCode/Playgrounds/cpp/use.cpp"
+        },
+        "position": {
+            "line": 3,
+            "character": 12
+        }
+    }
+}

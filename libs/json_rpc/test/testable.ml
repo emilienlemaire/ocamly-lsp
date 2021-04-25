@@ -1,0 +1,1 @@
+let jsonrpc = Alcotest.bool

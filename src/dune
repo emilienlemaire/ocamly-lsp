@@ -1,0 +1,5 @@
+(executable
+ (name main)
+ (package ocamly_lsp)
+ (public_name ocamly-lsp)
+ (libraries json_rpc lsp))
