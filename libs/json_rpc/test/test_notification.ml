@@ -26,7 +26,7 @@ let read () =
   Alcotest.(check yojson) "params" (params :> Yojson.Safe.t) expected_params
 
 let write () =
-  let params = Some(`Assoc [("id", (`Int 1))]) in
+  let params = Some (`Assoc [("id", `Int 1)]) in
   let method_ = "$/cancelRequest" in
   let not = Jsonrpc.Notification.create ?params method_ in
   let json = Jsonrpc.Notification.to_yojson not in
@@ -34,5 +34,6 @@ let write () =
   let yojson = Alcotest.testable Yojson.Safe.pp Yojson.Safe.equal in
   Alcotest.(check yojson) "write" expected_json json
 
-let test_notification = [("Can read notification", `Quick, read);
-  ("Can write notification", `Quick, write)]
+let test_notification =
+  [ ("Can read notification", `Quick, read)
+  ; ("Can write notification", `Quick, write) ]

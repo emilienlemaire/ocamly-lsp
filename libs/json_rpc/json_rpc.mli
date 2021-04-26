@@ -15,7 +15,22 @@ module Jsonrpc : sig
 
   module Error : sig
     module Code : sig
-      type t
+      type t =
+        | ParseError
+        | InvalidRequest
+        | MethodNotFound
+        | InvalidParams
+        | InternalError
+        | ServerErrorStart
+        | ServerErrorEnd
+        | ServerNotInitialized
+        | UnknownErrorCode
+        | RequestCancelled
+        | ContentModified
+
+      val of_int : int -> t option
+
+      val to_int : t -> int
 
       val of_yojson : Yojson.Safe.t -> Json.t
     end

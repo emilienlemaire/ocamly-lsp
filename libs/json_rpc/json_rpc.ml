@@ -162,7 +162,8 @@ module Jsonrpc = struct
     type t = {id: Id.t; result: Json.t option; error: Error.t option}
 
     let to_yojson {id; error; result} =
-      let yojson = [("jsonrpc", `String "2.0")] in
+      let yojson = [("jsonrpc", `String "2.0")
+      ; ("id", (id :> Yojson.Safe.t))] in
       let yojson =
         match (error, result) with
         | Some err, None -> yojson @ [("error", Error.to_yojson err)]
@@ -324,8 +325,6 @@ module Jsonrpc = struct
              ("There must be the field 'id' in a response object.", yojson)
           )
 
-  exception Not_implemented_yet
-
   let to_yojson = function
     | Message (Message.Request req) -> (
         let yojson =
@@ -347,5 +346,5 @@ module Jsonrpc = struct
             let yojson = yojson @ [("params", (params :> Yojson.Safe.t))] in
             `Assoc yojson
         | None -> `Assoc yojson )
-    | Response _ -> raise Not_implemented_yet
+    | Response resp -> Response.to_yojson resp
 end
