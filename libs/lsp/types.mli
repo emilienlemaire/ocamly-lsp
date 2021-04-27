@@ -1,5 +1,11 @@
 open Json_rpc
 
+module ProgressToken : sig
+  type t =
+    | Int of int
+    | String of string
+end
+
 module DocumentUri : sig
   type t = [`String of string]
 end
@@ -123,4 +129,87 @@ end
 
 module DeleteFile : sig
   type t = {kind: string; uri: DocumentUri.t; options: DeleteFileOptions option; annotationId: ChangeAnnotationIdentifier option}
+end
+
+module WorkspaceEdit : sig
+  type changes = { uri: DocumentUri.t; edits: TextEdit.t list }
+  type documentChanges =
+    | TextDocumentEdit of TextDocumentEdit.t list
+    | CreateFile of CreateFile.t list
+    | RenameFile of RenameFile.t list
+    | DeleteFile of DeleteFile.t list
+  type changeAnnotations = {id: string; hangeAnnotation: ChangeAnnotation.t}
+
+  type t = {changes: changes list option; documentChanges: documentChanges list option; changeAnnotations: changeAnnotations list option}
+end
+
+module TextDocumentIdentifier : sig
+  type t = {uri: DocumentUri.t}
+end
+
+module TextDocumentItem : sig
+  type t = {uri: DocumentUri.t; languageId: string; version: int; text: string}
+end
+
+module VersionedTextDocumentIdentifier : sig
+  type t = {textDocumentIdentifier: TextDocumentIdentifier.t; version: int}
+end
+
+module OptionalVersionedTextDocumentIdentifier : sig
+  type t = {textDocumentIdentifier: TextDocumentIdentifier.t; version: [`Int of int | `Null]}
+end
+
+module DocumentFilter : sig
+  type t = {langauge: string option; scheme: string option; pattern: string option}
+end
+
+module DocumentSelector : sig
+  type t = DocumentFilter.t list
+end
+
+module StaticRegistrationInterface : sig
+  type t = {id: string option}
+end
+
+module TextDocumentRegistrationOption : sig
+  type documentSelector_or_null =
+    | DocumentSelector of DocumentSelector.t
+    | Null
+
+  type t = {documentSelector: documentSelector_or_null}
+end
+
+module MarkupKind : sig
+  type t =
+    | PlainText
+    | Markdown
+
+  val of_string: string -> t
+  val to_string: t -> string
+end
+
+module MarkupContent : sig
+  type t = {kind: MarkupKind.t; value: string}
+end
+
+module WorkDoneProgressBegin : sig
+  type t = {kind: string; title: string; cancellable: bool option; message: string option; percentage: int option}
+end
+
+module WorkDoneProgresseReport : sig
+  type t = {kind: string; cancellable: bool option; message: string option; percentage: int option}
+end
+
+module WorkDoneProgressEnd : sig
+  type t = {kind: string; message: string option}
+end
+
+module TraceValue : sig
+  type t =
+    | Off
+    | Message
+    | Verbose
+
+  val of_string: string -> t
+  val to_string: t -> string
 end
